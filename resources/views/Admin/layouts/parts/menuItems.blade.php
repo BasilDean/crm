@@ -1,19 +1,17 @@
-@if(($items))
-    @foreach($items as $item)
-        <li class="nav-item">
-            <a href="{{ $item->url() }}" class="nav-link">
-                <p>
-                    {{ $item->title }}
-                </p>
-                @if($item->hasChildren())
-                    <i class="fas fa-angle-left right"></i>
-                @endif
-            </a>
+@foreach($items as $item)
+    <li class="nav-item">
+        <a href="{{$item->url()}}" class="nav-link">
+            <p>
+                {{$item->title}}
+            </p>
             @if($item->hasChildren())
-                <ul class="nav nav-treeview" style="margin-left: 10px;">
-                    @include('Admin::layouts.parts.menuItems', ['items' => $item->children()])
-                </ul>
+               <i class="fas fa-angle-left right"></i>
             @endif
-        </li>
-    @endforeach
-@endif
+        </a>
+        @if($item->hasChildren())
+            <ul class="nav nav-treeview" style="margin-left: 10px">
+                @include('Admin::layouts.parts.menuItems',['items'=>$item->children()])
+            </ul>
+        @endif
+    </li>
+@endforeach

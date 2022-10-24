@@ -17,7 +17,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return ResponseServise::sendJsonResponse(true, 200, [], [
+        return ResponseServise::sendJsonResponse(true, 200,[], [
             'menu' => (Menu::frontMenu(Auth::user())->get())->toArray()
         ]);
     }

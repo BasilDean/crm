@@ -9,6 +9,5 @@
             <a href="/admin/dashboard" class="nav-link">Home</a>
         </li>
     </ul>
-
 </nav>
 <!-- /.navbar -->

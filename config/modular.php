@@ -4,10 +4,10 @@ return [
     'base_namespace' => 'App\Modules',
     'groupWithoutPrefix' => 'Pub',
 
-    'groupMiddleware' => [
+    'groupMidleware' => [
         'Admin' => [
             'web' => ['auth'],
-            'api' => ['auth:api']
+            'api' => ['auth:api'],
         ]
     ],
 
@@ -15,10 +15,11 @@ return [
         'Admin' => [
             'Menu',
             'Dashboard',
-            'Users'
+            'User',
         ],
+
         'Pub' => [
             'Auth'
         ],
-    ],
+    ]
 ];

@@ -3,6 +3,7 @@
 namespace App\Modules\Pub\Auth\Requests;
 
 use App\Services\Requests\ApiRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends ApiRequest
 {
@@ -13,20 +14,21 @@ class LoginRequest extends ApiRequest
      */
     public function authorize()
     {
+
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
             //
-            'email' => 'required',
-            'password' => 'required'
+            'email'=>'required',
+            'password'=>'required',
         ];
     }
 }

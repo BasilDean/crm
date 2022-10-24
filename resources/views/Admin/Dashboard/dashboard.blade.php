@@ -1,6 +1,5 @@
 @extends('Admin::layouts.layout')
 
-
 @section('header')
     @include('Admin::layouts.parts.header')
 @endsection

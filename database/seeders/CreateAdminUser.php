@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,15 +14,14 @@ class CreateAdminUser extends Seeder
      */
     public function run()
     {
-
+        //
         DB::table('users')->insert([
-            'firstName' => 'admin',
-            'lastName' => 'admin',
-            'phone' => '89999999999',
-            'email' => 'duvanov@ivit.pro',
-            'password' => bcrypt('123'),
-            'status' => '1',
+            'firstname'=>'admin',
+            'lastname'=>'admin',
+            'phone'=>'111111111111',
+            'email'=>'admin@admin.com',
+            'password'=>bcrypt('admin'),
+            'status'=>'1',
         ]);
-
     }
 }

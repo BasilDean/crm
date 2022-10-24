@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Services\Localization\LocalizationService;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Route;
 
 class ModularProvider extends ServiceProvider
 {
@@ -25,29 +25,35 @@ class ModularProvider extends ServiceProvider
      */
     public function boot()
     {
+        //
+
         $modules = config('modular.modules');
         $path = config('modular.path');
 
-        if ($modules) {
+        if($modules) {
             Route::group([
                 'prefix'=>LocalizationService::locale()
             ], function() use($modules, $path) {
+
                 foreach ($modules as $mod => $submodules) {
-                    foreach ($submodules as $key => $submodule) {
-                        $relativePath = "/$mod/$submodule";
+                    foreach ($submodules as $key => $sub) {
+
+                        $relativePath = "/$mod/$sub";
+
 
                         Route::middleware('web')
-                            ->group(function () use($mod, $submodule, $path, $relativePath) {
-                                $this->getRoutes($mod, $submodule, $path, $relativePath);
+                            ->group(function() use($mod, $sub, $relativePath, $path) {
+                                $this->getWebRoutes($mod, $sub, $relativePath, $path);
                             });
 
-                        Route::middleware('api')
-                            ->prefix('api')
-                            ->group(function () use($mod, $submodule, $path, $relativePath) {
-                                $this->getRoutes($mod, $submodule, $path, $relativePath, true);
+                        Route::prefix('api')
+                            ->middleware('api')
+                            ->group(function() use($mod, $sub, $relativePath, $path) {
+                                $this->getApiRoutes($mod, $sub, $relativePath, $path);
                             });
                     }
-               }
+                }
+
             });
         }
 
@@ -55,51 +61,63 @@ class ModularProvider extends ServiceProvider
         $this->app['view']->addNamespace('Admin',base_path().'/resources/views/Admin');
     }
 
-    private function getRoutes(mixed $mod, mixed $submodule, string $path, string $relativePath, bool $isApi = false)
+    private function getWebRoutes($mod, $sub, $relativePath, $path)
     {
-        $routesPath = $path.$relativePath.'/Routes/' . ($isApi ? 'api' : 'web') . '.php';
-        if (file_exists($routesPath)) {
 
-            if ($mod != config('modular.groupWithoutPrefix') && !$isApi) {
+        $routesPath = $path.$relativePath.'/Routes/web.php';
+        if(file_exists($routesPath)) {
+
+            if($mod != config('modular.groupWithoutPrefix')) {
                 Route::group(
                     [
                         'prefix' => strtolower($mod),
                         'middleware' => $this->getMiddleware($mod)
                     ],
-                    function () use ($mod, $submodule, $routesPath) {
-                        Route::namespace("App\Modules\\$mod\\$submodule\Controllers")->group($routesPath);
+                    function() use ($mod, $sub, $routesPath) {
+                        Route::namespace("App\Modules\\$mod\\$sub\Controllers")->
+                        group($routesPath);
                     }
                 );
-            }
-            elseif (!$isApi) {
-                Route::namespace("App\Modules\\$mod\\$submodule\Controllers")->middleware($this->getMiddleware($mod, $isApi ? 'api' : 'web'))->group($routesPath);
             }
             else {
-                Route::group(
-                    [
-                        'prefix' => strtolower($mod),
-                        'middleware' => $this->getMiddleware($mod, 'api')
-                    ],
-                    function() use ($mod, $submodule, $routesPath) {
-                        Route::namespace("App\Modules\\$mod\\$submodule\Controllers")->group($routesPath);
-                    }
-                );
+                Route::namespace("App\Modules\\$mod\\$sub\Controllers")->
+                middleware($this->getMiddleware($mod))->
+                group($routesPath);
             }
+
+        }
+
+    }
+
+    private function getApiRoutes($mod, $sub, $relativePath, $path)
+    {
+        $routesPath = $path.$relativePath.'/Routes/api.php';
+        if(file_exists($routesPath)) {
+            Route::group(
+                [
+                    'prefix' => strtolower($mod),
+                    'middleware' => $this->getMiddleware($mod, 'api')
+                ],
+                function() use ($mod, $sub, $routesPath) {
+                    Route::namespace("App\Modules\\$mod\\$sub\Controllers")->
+                            group($routesPath);
+                }
+            );
         }
     }
 
-    private function getMiddleware(mixed $mod, string $key = 'web') : array
+    private function getMiddleware($mod, $key = 'web')
     {
         $middleware = [];
 
-        $config = config('modular.groupMiddleware');
+        $config = config('modular.groupMidleware');
 
-        if (isset($config[$mod])) {
-            if (array_key_exists($key, $config[$mod])) {
+        if(isset($config[$mod])) {
+            if(array_key_exists($key, $config[$mod])) {
                 $middleware = array_merge($middleware, $config[$mod][$key]);
             }
         }
+
         return $middleware;
     }
-
 }

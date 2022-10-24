@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    //
     use AuthenticatesUsers;
 
-    protected $redirectTo = "/admin/dashboard";
+    protected $redirectTo = '/admin/dashboard';
 
-    public function __construct()
+    public function  __construct()
     {
         $this->middleware('guest')->except('logout');
     }
@@ -28,4 +29,5 @@ class LoginController extends Controller
 
         return view('Pub::Auth.login');
     }
+
 }
