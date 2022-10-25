@@ -182,6 +182,8 @@ return [
 
         Lavary\Menu\ServiceProvider::class,
 
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
     ],
 
     /*
