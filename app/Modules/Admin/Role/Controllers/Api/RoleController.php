@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Admin\Users\Controllers\Api;
+namespace App\Modules\Admin\Role\Controllers\Api;
 
-use App\Modules\Admin\Users\Models\User;
+use App\Modules\Admin\Role\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Modules\Admin\Users\Models\User  $user
+     * @param  \App\Modules\Admin\Role\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Role $role)
     {
         //
     }
@@ -53,10 +53,10 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Modules\Admin\Users\Models\User  $user
+     * @param  \App\Modules\Admin\Role\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Role $role)
     {
         //
     }
@@ -65,10 +65,10 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Modules\Admin\Users\Models\User  $user
+     * @param  \App\Modules\Admin\Role\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -76,10 +76,10 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Modules\Admin\Users\Models\User  $user
+     * @param  \App\Modules\Admin\Role\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Role $role)
     {
         //
     }
