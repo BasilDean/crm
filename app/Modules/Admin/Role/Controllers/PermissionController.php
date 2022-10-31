@@ -8,6 +8,7 @@ use App\Modules\Admin\Role\Models\Permission;
 use App\Modules\Admin\Role\Models\Role;
 use App\Modules\Admin\Role\Services\PermService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class PermissionController extends Base
@@ -55,11 +56,17 @@ class PermissionController extends Base
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', Role::class);
+
+        $this->service->save($request);
+
+        return back()->with([
+            'message' => __('Success')
+        ]);
     }
 
     /**

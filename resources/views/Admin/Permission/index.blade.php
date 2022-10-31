@@ -29,7 +29,7 @@
                                 @foreach($roles as $role)
                                     <td>
                                         <label class="checkbox-label">
-                                            @if(true/*$role->hasPermission($val->alias)*/)
+                                            @if($role->hasPermission($val->alias))
                                                 <input checked name="{{ $role->id }}[]" type="checkbox"
                                                        class="checkbox-input" value="{{ $val->id }}">
                                             @else
