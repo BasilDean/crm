@@ -8,20 +8,23 @@ use App\Modules\Admin\Role\Models\Permission;
 use App\Modules\Admin\Role\Models\Role;
 use App\Modules\Admin\Role\Services\PermService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
-class PermissionController extends Base
+class PermissionsController extends Base
 {
+
+    /**
+     * RoleController constructor.
+     */
     public function __construct(PermService $permService)
     {
         parent::__construct();
         $this->service = $permService;
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -30,14 +33,15 @@ class PermissionController extends Base
         $perms = Permission::all();
         $roles = Role::all();
 
+        $this->title = "Title Perm Index";
 
-        $this->title = 'Permissions';
-
-        $this->content = view('Admin::Permission.index')->with([
-            'roles' => $roles,
+        $this->content = view('Admin::Permission.index')->
+        with([
             'perms' => $perms,
+            'roles' => $roles,
             'title' => $this->title,
-        ])->render();
+        ])->
+        render();
 
         return $this->renderOutput();
     }
@@ -56,17 +60,19 @@ class PermissionController extends Base
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        //
         $this->authorize('create', Role::class);
 
         $this->service->save($request);
 
-        return back()->with([
+        return  back()->with([
             'message' => __('Success')
         ]);
+
     }
 
     /**

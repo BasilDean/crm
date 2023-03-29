@@ -20,7 +20,7 @@ class Role extends Model
      * @return BelongsToMany*
      */
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
@@ -28,7 +28,8 @@ class Role extends Model
     /**
      * @return BelongsToMany*
      */
-    public function perms() {
+    public function perms(): BelongsToMany
+    {
         return $this->belongsToMany(Permission::class);
     }
 
@@ -50,7 +51,8 @@ class Role extends Model
                 if ($hasPermision && !$require) {
                     return true;
                 }
-                else if (!$hasPermision && $require) {
+
+                if (!$hasPermision && $require) {
                     return false;
                 }
             }

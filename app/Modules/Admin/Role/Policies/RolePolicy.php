@@ -19,28 +19,28 @@ class RolePolicy
         //
     }
 
-    public function view()
+    public function view(User $user)
     {
-        return true;
+        return $user->canDo(['super_admin', 'roles__access']);
     }
 
-    public function create()
+    public function create(User $user)
     {
-        return true;
+        return $user->canDo(['super_admin', 'roles__access']);
     }
 
-    public function edit()
+    public function edit(User $user)
     {
-        return true;
+        return $user->canDo(['super_admin', 'roles__access']);
     }
 
-    public function delete()
+    public function delete(User $user)
     {
-        return true;
+        return $user->canDo(['super_admin', 'roles__access']);
     }
 
-    public function store()
+    public function store(User $user)
     {
-        return true;
+        return $user->canDo(['super_admin', 'roles__access']);
     }
 }

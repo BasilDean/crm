@@ -11,7 +11,7 @@
         <form class="table-responsive"  enctype="multipart/form-data" method="post" action="{{route('permissions.store')}}">
 
             @csrf
-            @if($perms)
+            @if(!empty($perms))
                 <table class="table table-hover">
                     <thead>
                     <th>{{__('Permissions')}}</th>
@@ -51,6 +51,8 @@
                 <button type="submit" class="btn btn-success">{{__('Submit')}}</button>
 
         </form>
+        @else
+            <div class="">Нет ролей в проекте</div>
         @endif
     </div>
 </div>

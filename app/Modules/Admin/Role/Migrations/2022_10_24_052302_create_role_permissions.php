@@ -34,6 +34,8 @@ return new class extends Migration
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
@@ -45,5 +47,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('role_permissions');
+        Schema::dropIfExists('role_user');
     }
 };

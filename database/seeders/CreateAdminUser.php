@@ -19,8 +19,8 @@ class CreateAdminUser extends Seeder
             'firstname'=>'admin',
             'lastname'=>'admin',
             'phone'=>'111111111111',
-            'email'=>'admin@admin.com',
-            'password'=>bcrypt('admin'),
+            'email'=>'duvanov@ivit.pro',
+            'password'=>bcrypt('123'),
             'status'=>'1',
         ]);
     }
