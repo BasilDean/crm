@@ -153,7 +153,7 @@ class ModuleMake extends Command
 
     }
 
-    private function createMigration()
+    private function createMigration(): void
     {
         $table = Str::plural(Str::snake(class_basename($this->argument('name'))));
 
