@@ -14,7 +14,7 @@ class RoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->canDo(['super_admin', 'roles__access']);
+        return Auth::user()->canDo(['super_admin', 'roles_access']);
     }
 
     /**
