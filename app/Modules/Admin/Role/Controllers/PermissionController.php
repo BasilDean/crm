@@ -9,7 +9,7 @@ use App\Modules\Admin\Role\Models\Role;
 use App\Modules\Admin\Role\Services\PermService;
 use Illuminate\Http\Request;
 
-class PermissionsController extends Base
+class PermissionController extends Base
 {
 
     /**
