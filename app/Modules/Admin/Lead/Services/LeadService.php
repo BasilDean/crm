@@ -67,4 +67,52 @@ class LeadService
         }
 
     }
+
+    public function update($request, $user, $lead)
+    {
+        $lead->count_create++;
+
+        $tmp = clone $lead;
+
+        $status = Status::where('title', 'new')->first();
+
+        $lead->fill($request->only($lead->getFillable));
+        $lead->status()->associte($status);
+
+        $lead->save();
+
+        $this->addUpdateComments($lead, $request, $user, $status, $tmp);
+
+        return $lead;
+    }
+
+    private function addUpdateComments($lead, $request, $user, $status, $tmp)
+    {
+
+        if($request->text) {
+            $tmpText = "Пользователь <strong>".$user->fullname.'</strong> оставил комментарий '.$request->text;
+            LeadCommentService::saveComment($tmpText, $lead, $user, $status, $request->text);
+        }
+
+        if($tmp->source_id != $lead->source_id) {
+            $is_event = true;
+            $tmpText = "Пользователь <strong>".$user->fullname.'</strong> изменил источник на '.$lead->source;
+            LeadCommentService::saveComment($tmpText, $lead, $user, $status, null, $is_event);
+        }
+
+        if($tmp->unit_id != $lead->unit_id) {
+            $tmpText = "Пользователь <strong>".$user->fullname.'</strong> изменил позразделение на '.$lead->unit_id;
+            LeadCommentService::saveComment($tmpText, $lead, $user, $status, null, true);
+        }
+
+        if($tmp->status_id != $lead->status_id) {
+            $tmpText = "Пользователь <strong>".$user->fullname.'</strong> изменил статус на '.$lead->status_id;
+            LeadCommentService::saveComment($tmpText, $lead, $user, $status, null, true);
+        }
+
+        $tmpText = "Автор <strong>".$user->fullname.'</strong> создал лид со статусом '.$status->title_ru;
+        LeadCommentService::saveComment($tmpText, $lead, $user, $status, null, true);
+
+        $lead->statuses()->attach($status->id);
+    }
 }

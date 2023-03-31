@@ -3,11 +3,27 @@
 namespace App\Modules\Admin\LeadComment\Controllers\Api;
 
 use App\Modules\Admin\LeadComment\Models\LeadComment;
+use App\Modules\Admin\LeadComment\Requests\LeadCommentRequest;
+use App\Modules\Admin\LeadComment\Services\LeadCommentService;
+use App\Services\Response\ResponseServise;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class LeadCommentController extends Controller
 {
+
+
+    private $service;
+
+    /**
+     * @param $service
+     */
+    public function __construct(LeadCommentService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,12 +47,20 @@ class LeadCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param LeadCommentRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(LeadCommentRequest $request)
     {
-        //
+        $this->authorize('create', LeadComment::class);
+
+
+        $lead = $this->service->store($request, Auth::user());
+
+        return ResponseServise::sendJsonResponse(true, 200, [], [
+            'item'=>$lead,
+        ]);
+
     }
 
     /**

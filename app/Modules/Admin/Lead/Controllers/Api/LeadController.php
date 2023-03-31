@@ -6,6 +6,7 @@ use App\Modules\Admin\Lead\Models\Lead;
 use App\Modules\Admin\Lead\Requests\LeadCreateRequest;
 use App\Modules\Admin\Lead\Services\LeadService;
 use App\Services\Response\ResponseServise;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -55,7 +56,7 @@ class LeadController extends Controller
      * Store a newly created resource in storage.
      *
      * @param LeadCreateRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(LeadCreateRequest $request)
     {
@@ -93,13 +94,19 @@ class LeadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Modules\Admin\Lead\Models\Lead  $lead
-     * @return \Illuminate\Http\Response
+     * @param LeadCreateRequest $request
+     * @param Lead $lead
+     * @return JsonResponse
      */
-    public function update(Request $request, Lead $lead)
+    public function update(LeadCreateRequest $request, Lead $lead)
     {
-        //
+        $this->authorize('edit', Lead::class);
+
+        $lead = $this->service->update($request, Auth::user(), $lead);
+
+        return ResponseServise::sendJsonResponse(true, '200', [], [
+            'item'=>$lead
+        ]);
     }
 
     /**
