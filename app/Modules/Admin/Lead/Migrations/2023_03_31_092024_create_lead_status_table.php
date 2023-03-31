@@ -13,23 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lead_comments', function (Blueprint $table) {
+        Schema::create('lead_status', function (Blueprint $table) {
             $table->id();
 
-            $table->text('text');
-
-            $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-
             $table->bigInteger('lead_id')->unsigned()->nullable();
-            $table->foreign('lead_id')->references('id')->on('leads');
-
             $table->bigInteger('status_id')->unsigned()->nullable();
+
+            $table->foreign('lead_id')->references('id')->on('leads');
             $table->foreign('status_id')->references('id')->on('statuses');
-
-            $table->text('comment_value')->nullable();
-
-            $table->boolean('is_event')->default(0);
 
             $table->timestamps();
         });
@@ -42,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lead_comments');
+        Schema::dropIfExists('lead_status');
     }
 };

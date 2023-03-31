@@ -23,4 +23,8 @@ class User extends AuthUser
     protected $hidden = [
         'password'
     ];
+
+    public function getFullnameAttribute() {
+        return $this->firstname. ' ' . $this->lastname;
+    }
 }
