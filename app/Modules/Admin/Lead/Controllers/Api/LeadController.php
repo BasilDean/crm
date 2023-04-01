@@ -29,7 +29,7 @@ class LeadController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -45,7 +45,7 @@ class LeadController extends Controller
     /**
      * Create of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -72,19 +72,21 @@ class LeadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Modules\Admin\Lead\Models\Lead  $lead
-     * @return \Illuminate\Http\Response
+     * @param Lead $lead
+     * @return JsonResponse
      */
     public function show(Lead $lead)
     {
-        //
+        return ResponseServise::sendJsonResponse(true, '200', [], [
+            'item'=>$lead
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Modules\Admin\Lead\Models\Lead  $lead
-     * @return \Illuminate\Http\Response
+     * @param Lead $lead
+     * @return void
      */
     public function edit(Lead $lead)
     {
@@ -98,7 +100,7 @@ class LeadController extends Controller
      * @param Lead $lead
      * @return JsonResponse
      */
-    public function update(LeadCreateRequest $request, Lead $lead)
+    public function update(LeadCreateRequest $request, Lead $lead): JsonResponse
     {
         $this->authorize('edit', Lead::class);
 
@@ -112,11 +114,45 @@ class LeadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Modules\Admin\Lead\Models\Lead  $lead
-     * @return \Illuminate\Http\Response
+     * @param Lead $lead
+     * @return Response
      */
     public function destroy(Lead $lead)
     {
         //
+    }
+
+    public function archive() {
+        $this->authorize('view', Lead::class);
+
+        $leads = $this->service->archive();
+
+        return ResponseServise::sendJsonResponse(true, 200, [], [
+            'items' => $leads,
+        ]);
+    }
+
+    public function checkIfExist(Request $request) {
+        $this->authorize('create', Lead::class);
+
+        $lead = $this->service->checkIfExist($request);
+
+        if ($lead) {
+            return ResponseServise::sendJsonResponse(true, 200, [], [
+                'item' => $lead,
+                'exist' => true
+            ]);
+        }
+        return ResponseServise::success();
+    }
+
+    public function setAsQualityLead(Request $request, Lead $lead) {
+        $this->authorize('edit', Lead::class);
+
+        $lead = $this->service->setAsQualityLead($request, $lead);
+
+        return ResponseServise::sendJsonResponse(true, 200, [], [
+            'item' => $lead
+        ]);
     }
 }

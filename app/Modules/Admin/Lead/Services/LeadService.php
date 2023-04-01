@@ -115,4 +115,33 @@ class LeadService
 
         $lead->statuses()->attach($status->id);
     }
+
+    public function archive()
+    {
+        $leads = (new Lead())->getArchive();
+
+        return $leads;
+    }
+
+    public function checkIfExist(\Illuminate\Http\Request $request)
+    {
+        $queryBuilder = Lead::select('*');
+
+        if ($request->link) {
+            $queryBuilder->where('link', $request->link);
+        } elseif ($request->phone) {
+            $queryBuilder->where('phone', $request->phone);
+        }
+
+        $queryBuilder->where('status_id', '!=', Lead::DONE_STATUS);
+
+        return $queryBuilder->first();
+    }
+
+    public function setAsQualityLead($request, $lead)
+    {
+        $lead->isQualityLead = true;
+        $lead->save();
+        return $lead;
+    }
 }

@@ -14,6 +14,8 @@ class Lead extends Model
 {
     use HasFactory;
 
+    const DONE_STATUS = 3;
+
     protected $fillable = [
         'link',
         'phone',
@@ -64,6 +66,11 @@ class Lead extends Model
 
     public function statuses() {
         return $this->belongsToMany(Status::class);
+    }
+
+    public function getArchive()
+    {
+        return $this->with(['statuses', 'source','unit'])->where('status_id', self::DONE_STATUS)->where('updated_at', '<' ,\DB::raw('DATE_SUB(NOW(), INTERVAL 24 HOUR)'))->orderBy('updated_at', 'desc')->paginate(config('settings.pagination'));
     }
 
 }

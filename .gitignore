@@ -10,10 +10,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.idea
+/bootstrap/*
 /public
 /storage
-.idea
-bootstrap
-public
-storage
-tests
+/tests/*
