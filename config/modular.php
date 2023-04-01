@@ -13,6 +13,12 @@ return [
 
     'modules' => [
         'Admin' => [
+            'Analytics',
+            'Analitics',
+            'LeadComment',
+            'LeadCommetn',
+            'Lead',
+            'Sources',
             'Role',
             'Menu',
             'Dashboard',

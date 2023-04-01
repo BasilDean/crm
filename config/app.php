@@ -184,6 +184,8 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        \Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -238,6 +240,7 @@ return [
 
         'Menu'      => Lavary\Menu\Facade::class,
 
+        "Excel" => \Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

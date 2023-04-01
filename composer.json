@@ -17,7 +17,10 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "lavary/laravel-menu": "^1.7"
+        "lavary/laravel-menu": "^1.7",
+        "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.28",
+        "psr/simple-cache": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
