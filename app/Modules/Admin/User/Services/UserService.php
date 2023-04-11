@@ -44,6 +44,27 @@ class UserService
         $user->rolename = $role->title;
 
         return $user;
+    }
 
+
+
+    public function saveWeb(UserRequestWeb $request, User $user)
+    {
+        $user->fill($request->only($user->getFillable()));
+
+        if($request->password){
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->status = '1';
+
+        $user->save();
+
+        $role = Role::findOrFail($request->role_id);
+        $user->roles()->sync($role->id);
+
+        $user->rolename = $role->title;
+
+        return $user;
     }
 }
